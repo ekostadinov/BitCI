@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BitCI</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url(/images/bg-body.jpg)">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h3 style="color: white; font-family: MS Serif;">BitCI</h3>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul id="custom-ul-text" class="nav navbar-nav">
+                    <li><img width="50" height="50" src="/images/bitci-logo.png"/></li>
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { Style = "color:white; font-size: 20px;"})</li>
+                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { Style = "color:white; font-size: 20px;" })</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { Style = "color:white; font-size: 20px;" })</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2016 - BitCI v1.0 powered by ASP.NET MVC</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

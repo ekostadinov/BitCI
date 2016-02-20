@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitCI", "BitCI\BitCI.csproj", "{13E7DCD2-9108-4641-AC2D-585915298940}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitCI.Tests", "BitCI.Tests\BitCI.Tests.csproj", "{78EBB5B2-AAD1-47E2-9939-72E045EF96B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13E7DCD2-9108-4641-AC2D-585915298940}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E7DCD2-9108-4641-AC2D-585915298940}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E7DCD2-9108-4641-AC2D-585915298940}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E7DCD2-9108-4641-AC2D-585915298940}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78EBB5B2-AAD1-47E2-9939-72E045EF96B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78EBB5B2-AAD1-47E2-9939-72E045EF96B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78EBB5B2-AAD1-47E2-9939-72E045EF96B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78EBB5B2-AAD1-47E2-9939-72E045EF96B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

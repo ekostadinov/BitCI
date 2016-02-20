@@ -1,0 +1,72 @@
+﻿@using BitCI.Context
+@using BitCI.Models.BuildSteps
+@model BitCI.Models.BuildSteps.PostBuildEmailStep
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>PostBuildEmailStep</h4>
+        <hr/>
+        @{
+            var builds = new ServerContext().Builds.ToList();
+            var lastBuild = builds
+                .Where(b => b.Id == builds.Max(i => i.Id))
+                .Select(b => new SelectListItem
+                {
+                    Value = b.Id.ToString(),
+                    Text = b.Id.ToString()
+                });
+        }
+
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        <div class="form-group">
+            @Html.LabelFor(model => model.BuildId, "BuildId", htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.BuildId, lastBuild.ToList(), htmlAttributes: new {@class = "form-control"})
+            </div>
+        </div>
+        <div class="form-group">
+            @{
+                // limit possible options only to Idle
+                var selectList = Enum.GetValues(typeof (StepStatus))
+                    .Cast<StepStatus>()
+                    .Where(e => e == StepStatus.Idle)
+                    .Select(e => new SelectListItem
+                    {
+                        Value = ((int) e).ToString(),
+                        Text = e.ToString()
+                    });
+            }
+
+            @Html.LabelFor(model => model.Status, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Status, selectList, htmlAttributes: new {@class = "form-control"})
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Value, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Value, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Value, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

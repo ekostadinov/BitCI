@@ -1,0 +1,138 @@
+﻿@using BitCI.Context
+@model BitCI.Models.Build
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Build</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Workspace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Workspace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TriggeredBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TriggeredBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        @{
+            var db = new ServerContext();
+            for (int step = 0; step < db.VCSteps.Count(); step++)
+            {
+                if (db.VCSteps.ToArray()[step].BuildId.Equals(Model.Id))
+                {
+                    <dt>Version control step </dt>
+                    <dd>@db.VCSteps.ToArray()[step].Value</dd>
+                    break;
+                }
+            }
+        }
+
+        @{
+            for (int step = 0; step < db.BuildSteps.Count(); step++)
+            {
+                if (db.VCSteps.ToArray()[step].BuildId.Equals(Model.Id))
+                {
+                    <dt>Build step </dt>
+                    <dd>@db.BuildSteps.ToArray()[step].Value</dd>
+                    break;
+                }
+            }
+        }
+        
+        @{
+            for (int step = 0; step < db.RunTestsSteps.Count(); step++)
+            {
+                if (db.VCSteps.ToArray()[step].BuildId.Equals(Model.Id))
+                {
+                    <dt>Test Runner step </dt>
+                    <dd>@db.RunTestsSteps.ToArray()[step].Value</dd>
+                    break;
+                }
+            }
+        }
+
+        @{
+            for (int step = 0; step < db.EmailSteps.Count(); step++)
+            {
+                if (db.VCSteps.ToArray()[step].BuildId.Equals(Model.Id))
+                {
+                    <dt>Post build step </dt>
+                    <dd>@db.EmailSteps.ToArray()[step].Value</dd>
+                    break;
+                }
+            }
+        }
+
+        @{
+            for (int step = 0; step < db.TriggerSteps.Count(); step++)
+            {
+                if (db.VCSteps.ToArray()[step].BuildId.Equals(Model.Id))
+                {
+                    <dt>Trigger step </dt>
+                    <dd>@db.TriggerSteps.ToArray()[step].Value</dd>
+                    break;
+                }
+            }
+        }
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Log)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Log)<br />
+            @foreach (var dataLine in ViewBag.LogFileContent)
+            {
+                @dataLine
+                <br />
+            } 
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
