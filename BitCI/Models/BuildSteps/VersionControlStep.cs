@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace BitCI.Models.BuildSteps
 {
@@ -15,15 +17,34 @@ namespace BitCI.Models.BuildSteps
         {
             string command = Value;
             //todo: remove username:password
-            command = command.Replace("http://", "http://ekostadinov:Test1234");
-            command += " " + Build.Workspace.Replace("\\", "/");
+            command = command.Replace("https://", "http://ekostadinov:Test1234@");
+            string gitDirrectory = Build.Workspace.Replace("\\", "/") + "/source";
+            command += " " + gitDirrectory;
 
-            Process p = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = @"/c " + command;
-            p.StartInfo = startInfo;
-            p.Start();
+            //clone project
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.Arguments = @"/c git clone " + command;
+            //process.StartInfo.RedirectStandardOutput = true;
+            //process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            //update log
+            //string output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            object locker = new Object();
+            lock (locker)
+            {
+                using (FileStream file = new FileStream(Build.Log, FileMode.Append, FileAccess.Write, FileShare.Read))
+                using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
+                {
+                    writer.WriteLine();
+                    writer.WriteLine("Step 1:");
+                    writer.WriteLine("Downloading Git project...");
+                    //writer.WriteLine(output);
+                }
+            }
+
         }
     }
 }
