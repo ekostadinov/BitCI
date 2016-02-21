@@ -28,7 +28,6 @@ namespace BitCI.Models.BuildSteps
                     writer.WriteLine();
                     writer.WriteLine("Step 2:");
                     writer.WriteLine("Build .Net project...");
-                    //writer.WriteLine(output);
                 }
             }
             
