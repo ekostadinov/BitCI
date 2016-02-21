@@ -211,14 +211,14 @@ namespace BitCI.Controllers
                 }
             }
 
-            //for (int step = 0; step < db.RunTestsSteps.Count(); step++)
-            //{
-            //    if (db.VCSteps.ToArray()[step].BuildId.Equals(buildId))
-            //    {
-            //        db.RunTestsSteps.ToArray()[step].Execute();
-            //        break;
-            //    }
-            //}
+            for (int step = 0; step < db.RunTestsSteps.Count(); step++)
+            {
+                if (db.VCSteps.ToArray()[step].BuildId.Equals(buildId))
+                {
+                    db.RunTestsSteps.ToArray()[step].Execute();
+                    break;
+                }
+            }
 
             // for (int step = 0; step < db.EmailSteps.Count(); step++)
             //{

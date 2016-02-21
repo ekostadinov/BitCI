@@ -21,17 +21,7 @@ namespace BitCI.Models.BuildSteps
             string gitDirrectory = Build.Workspace.Replace("\\", "/") + "/source";
             command += " " + gitDirrectory;
 
-            //clone project
-            Process process = new Process();
-            process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.Arguments = @"/c git clone " + command;
-            //process.StartInfo.RedirectStandardOutput = true;
-            //process.StartInfo.UseShellExecute = false;
-            process.Start();
-
             //update log
-            //string output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
             object locker = new Object();
             lock (locker)
             {
@@ -41,10 +31,17 @@ namespace BitCI.Models.BuildSteps
                     writer.WriteLine();
                     writer.WriteLine("Step 1:");
                     writer.WriteLine("Downloading Git project...");
-                    //writer.WriteLine(output);
                 }
             }
 
+            //clone project
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.Arguments = @"/c git clone " + command + " >> " + Build.Log;
+            //process.StartInfo.RedirectStandardOutput = true;
+            //process.StartInfo.UseShellExecute = false;
+            process.Start();
+            process.WaitForExit();
         }
     }
 }

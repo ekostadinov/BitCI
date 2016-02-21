@@ -15,8 +15,7 @@ namespace BitCI.Models.BuildSteps
 
         public void Execute()
         {
-            //todo: support NUnit console
-            throw new NotImplementedException();
+
         }
     }
 }

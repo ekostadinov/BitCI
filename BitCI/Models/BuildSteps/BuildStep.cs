@@ -18,19 +18,7 @@ namespace BitCI.Models.BuildSteps
 
         public void Execute()
         {
-            string value = Value;
-            string gitDirrectory = Build.Workspace.Replace("\\", "/") + "/source";
-            //build project
-            Process process = new Process();
-            process.StartInfo.FileName = "cmd.exe";
-            process.StartInfo.Arguments = @"/c ""C:/Windows/Microsoft.NET/Framework64/v4.0.30319/MSBuild.exe"" " + gitDirrectory + "/" + value.Replace("\\", "/") + " /t:build";
-            //process.StartInfo.RedirectStandardOutput = true;
-            //process.StartInfo.UseShellExecute = false;
-            process.Start();
-
             //update log
-            //string output = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
             object locker = new Object();
             lock (locker)
             {
@@ -43,6 +31,19 @@ namespace BitCI.Models.BuildSteps
                     //writer.WriteLine(output);
                 }
             }
+            
+            string value = Value;
+            string gitDirrectory = Build.Workspace.Replace("\\", "/") + "/source";
+            //build project
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.Arguments = @"/c ""C:/Windows/Microsoft.NET/Framework64/v4.0.30319/MSBuild.exe"" " + gitDirrectory 
+                + "/" + value.Replace("\\", "/") + " /t:build"
+                + " >> " + Build.Log;
+            //process.StartInfo.RedirectStandardOutput = true;
+            //process.StartInfo.UseShellExecute = false;
+            process.Start();
+            process.WaitForExit();
         }
     }
 }
