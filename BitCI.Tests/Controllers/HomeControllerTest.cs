@@ -10,6 +10,8 @@ using NUnit.Framework;
 namespace BitCI.Tests.Controllers
 {
     [TestFixture]
+    [Category("Backend")]
+    [Category("Backend team")]
     [Category("Backendteam")]
     public class HomeControllerTest
     {

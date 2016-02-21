@@ -43,7 +43,7 @@ namespace BitCI.Models.BuildSteps
             process.StartInfo.FileName = "cmd.exe";
             process.StartInfo.Arguments = @"/c "+ gitDirrectory + @"/packages/NUnit.Runners.2.6.3/tools/nunit-console.exe " + gitDirrectory
                 + value 
-                + " /include:" + project.Name.Trim()
+                + " /include:" + project.Name.Replace(" team", String.Empty).Trim()
                 + " >> " + Build.Log;
             //process.StartInfo.RedirectStandardOutput = true;
             //process.StartInfo.UseShellExecute = false;
