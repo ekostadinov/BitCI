@@ -18,7 +18,18 @@ namespace BitCI.Models.BuildSteps
 
         public void Execute()
         {
-            string errorMessage = String.Empty;
+            //update log
+            object locker = new Object();
+            lock (locker)
+            {
+                using (FileStream file = new FileStream(Build.Log, FileMode.Append, FileAccess.Write, FileShare.Read))
+                using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
+                {
+                    writer.WriteLine();
+                    writer.WriteLine("Step 4:");
+                    writer.WriteLine("Send email to - " + Value);
+                }
+            }    
 
             try
             {
@@ -38,24 +49,9 @@ namespace BitCI.Models.BuildSteps
             }
             catch (Exception ex)
             {
-                errorMessage = "Unable to send email to " + Value + ". Error : " + ex.Message;
+                Console.WriteLine("Unable to send email to " + Value + ". Error : " + ex.Message);
             }
-            finally
-            {
-                //update log
-                object locker = new Object();
-                lock (locker)
-                {
-                    using (FileStream file = new FileStream(Build.Log, FileMode.Append, FileAccess.Write, FileShare.Read))
-                    using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
-                    {
-                        writer.WriteLine();
-                        writer.WriteLine("Step 4:");
-                        writer.WriteLine("Send email to - " + Value);
-                        writer.WriteLine(errorMessage);
-                    }
-                }    
-            }
+            
             
         }
     }
