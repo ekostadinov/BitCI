@@ -35,9 +35,7 @@ namespace BitCI.Models.BuildSteps
             {
                 SmtpClient mailServer = new SmtpClient("smtp.gmail.com", 587);
                 mailServer.EnableSsl = true;
-
-                //todo: remove password
-                mailServer.Credentials = new System.Net.NetworkCredential("evgenikostadinov@gmail.com", "EVge84##");
+                mailServer.Credentials = new System.Net.NetworkCredential("evgenikostadinov@gmail.com", "dummy-pass");
 
                 string from = "evgenikostadinov@gmail.com";
                 string to = Value;
@@ -51,7 +49,14 @@ namespace BitCI.Models.BuildSteps
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Unable to send email. Error : " + ex);
+                lock (locker)
+                {
+                    using (FileStream file = new FileStream(Build.Log, FileMode.Append, FileAccess.Write, FileShare.Read))
+                    using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
+                    {
+                        writer.WriteLine("Unable to send email to " + Value + ". Error : " + ex.Message);
+                    }
+                }
             }
         }
     }
