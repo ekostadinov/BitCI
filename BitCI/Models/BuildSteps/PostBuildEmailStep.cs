@@ -18,24 +18,13 @@ namespace BitCI.Models.BuildSteps
 
         public void Execute()
         {
-            //update log
-            object locker = new Object();
-            lock (locker)
-            {
-                using (FileStream file = new FileStream(Build.Log, FileMode.Append, FileAccess.Write, FileShare.Read))
-                using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
-                {
-                    writer.WriteLine();
-                    writer.WriteLine("Step 4:");
-                    writer.WriteLine("Send email to - ");
-                }
-            }
+            string errorMessage = String.Empty;
 
             try
             {
-                SmtpClient mailServer = new SmtpClient("smtp.gmail.com", 587);
+                SmtpClient mailServer = new SmtpClient("smtp.gmail.com", 465);
                 mailServer.EnableSsl = true;
-                mailServer.Credentials = new System.Net.NetworkCredential("evgenikostadinov@gmail.com", "dummy-pass");
+                mailServer.Credentials = new System.Net.NetworkCredential("evgenikostadinov@gmail.com", "EVge84##");
 
                 string from = "evgenikostadinov@gmail.com";
                 string to = Value;
@@ -49,15 +38,25 @@ namespace BitCI.Models.BuildSteps
             }
             catch (Exception ex)
             {
+                errorMessage = "Unable to send email to " + Value + ". Error : " + ex.Message;
+            }
+            finally
+            {
+                //update log
+                object locker = new Object();
                 lock (locker)
                 {
                     using (FileStream file = new FileStream(Build.Log, FileMode.Append, FileAccess.Write, FileShare.Read))
                     using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
                     {
-                        writer.WriteLine("Unable to send email to " + Value + ". Error : " + ex.Message);
+                        writer.WriteLine();
+                        writer.WriteLine("Step 4:");
+                        writer.WriteLine("Send email to - " + Value);
+                        writer.WriteLine(errorMessage);
                     }
-                }
+                }    
             }
+            
         }
     }
 }
