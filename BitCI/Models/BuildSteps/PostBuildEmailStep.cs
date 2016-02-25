@@ -35,7 +35,7 @@ namespace BitCI.Models.BuildSteps
             {
                 SmtpClient mailServer = new SmtpClient("smtp.gmail.com", 465);
                 mailServer.EnableSsl = true;
-                mailServer.Credentials = new System.Net.NetworkCredential("evgenikostadinov@gmail.com", "EVge84##");
+                mailServer.Credentials = new System.Net.NetworkCredential("evgenikostadinov@gmail.com", "dummy-pass");
 
                 string from = "evgenikostadinov@gmail.com";
                 string to = Value;
