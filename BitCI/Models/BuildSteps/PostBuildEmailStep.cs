@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Text;
 using System.Web;
 
 namespace BitCI.Models.BuildSteps
@@ -15,9 +18,41 @@ namespace BitCI.Models.BuildSteps
 
         public void Execute()
         {
-            //todo: implement smtp support 
-            // https://www.siteground.com/kb/google_free_smtp_server/
-            throw new NotImplementedException();
+            //update log
+            object locker = new Object();
+            lock (locker)
+            {
+                using (FileStream file = new FileStream(Build.Log, FileMode.Append, FileAccess.Write, FileShare.Read))
+                using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
+                {
+                    writer.WriteLine();
+                    writer.WriteLine("Step 4:");
+                    writer.WriteLine("Send email to - ");
+                }
+            }
+
+            try
+            {
+                SmtpClient mailServer = new SmtpClient("smtp.gmail.com", 587);
+                mailServer.EnableSsl = true;
+
+                //todo: remove password
+                mailServer.Credentials = new System.Net.NetworkCredential("evgenikostadinov@gmail.com", "EVge84##");
+
+                string from = "evgenikostadinov@gmail.com";
+                string to = Value;
+                MailMessage msg = new MailMessage(from, to)
+                {
+                    Subject = "BitCI test report",
+                    Body = "BitCI notifys You for a triggered build."
+                };
+                msg.Attachments.Add(new Attachment(Build.Log));
+                mailServer.Send(msg);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to send email. Error : " + ex);
+            }
         }
     }
 }
