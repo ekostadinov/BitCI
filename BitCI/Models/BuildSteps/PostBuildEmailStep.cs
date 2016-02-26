@@ -33,11 +33,12 @@ namespace BitCI.Models.BuildSteps
 
             try
             {
-                SmtpClient mailServer = new SmtpClient("smtp.gmail.com", 465);
+                //ports: 587 or 465
+                SmtpClient mailServer = new SmtpClient("smtp.mail.ru", 2525);
                 mailServer.EnableSsl = true;
-                mailServer.Credentials = new System.Net.NetworkCredential("evgenikostadinov@gmail.com", "dummy-pass");
+                mailServer.Credentials = new System.Net.NetworkCredential("bitcimail@mail.ru", "Test1234");
 
-                string from = "evgenikostadinov@gmail.com";
+                string from = "bitcimail@mail.ru";
                 string to = Value;
                 MailMessage msg = new MailMessage(from, to)
                 {
