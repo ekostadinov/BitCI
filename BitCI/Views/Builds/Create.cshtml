@@ -30,28 +30,28 @@
         <select class='form-control'>
             <option value="Git">Git</option>
         </select>
-        <input type="text" id="vcs" name="vcs" value="Github project https link" />
+        <input type="text" id="vcs" name="vcs" value="Github project https link" size="40" />
 
         <h5>2. BuildStep</h5>
         <select class='form-control'>
             <option value="MSBuild">MSBuild</option>
         </select>
-        <input type="text" id="buildStep" name="buildStep" value="Your *.sln file" />
+        <input type="text" id="buildStep" name="buildStep" value="Your *.sln file name" size="40" />
 
         <h5>3. RunTestsStep</h5>
         <select class='form-control'>
             <option value="NUnit">NUnit</option>
         </select>
-        <input type="text" id="run" name="run" value="Path to .dll from *.sln file"/>
+        <input type="text" id="run" name="run" value="Relative path to .dll from *.sln file" size="40" />
 
         <h5>4. PostBuildEmailStep</h5>
         <select class='form-control'>
             <option value="SMTP">SMTP</option>
         </select>
-        <input type="text" id="mail" name="mail" value="Email recipient"/>
+        <input type="text" id="mail" name="mail" value="Email recipient at mail.ru" size="40" />
 
         <h5>5. TriggerStep</h5>
-        <input type="text" id="trigger" name="trigger" value=""/>
+        <input type="text" id="trigger" name="trigger" value="Use HH:MM:SS format" size="40" />
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

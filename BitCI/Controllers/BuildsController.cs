@@ -193,6 +193,16 @@ namespace BitCI.Controllers
 
         private void ExecuteAllBuildSteps(int buildId)
         {
+            // this step is first since it affects the entire work-flow
+            for (int step = 0; step < db.TriggerSteps.Count(); step++)
+            {
+                if (db.VCSteps.ToArray()[step].BuildId.Equals(buildId))
+                {
+                    db.TriggerSteps.ToArray()[step].Execute();
+                    break;
+                }
+            }
+            
             for (int step = 0; step < db.VCSteps.Count(); step++)
             {
                 if (db.VCSteps.ToArray()[step].BuildId.Equals(buildId))
@@ -229,16 +239,7 @@ namespace BitCI.Controllers
                 }
             }
 
-            //for (int step = 0; step < db.TriggerSteps.Count(); step++)
-            //{
-            //    if (db.VCSteps.ToArray()[step].BuildId.Equals(buildId))
-            //    {
-            //        db.TriggerSteps.ToArray()[step].Execute();
-            //        break;
-            //    }
-            //}
-
-
+            //todo: update elapsed time duration
         }
 
         // GET: Builds/Delete/5

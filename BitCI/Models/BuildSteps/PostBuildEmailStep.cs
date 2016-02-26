@@ -26,14 +26,13 @@ namespace BitCI.Models.BuildSteps
                 using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
                 {
                     writer.WriteLine();
-                    writer.WriteLine("Step 4:");
+                    writer.WriteLine("Step 5:");
                     writer.WriteLine("Send email to - " + Value);
                 }
             }    
 
             try
             {
-                //ports: 587 or 465
                 SmtpClient mailServer = new SmtpClient("smtp.mail.ru", 2525);
                 mailServer.EnableSsl = true;
                 mailServer.Credentials = new System.Net.NetworkCredential("bitcimail@mail.ru", "Test1234");
@@ -52,7 +51,6 @@ namespace BitCI.Models.BuildSteps
             {
                 Console.WriteLine("Unable to send email to " + Value + ". Error : " + ex.Message);
             }
-            
             
         }
     }

@@ -27,7 +27,7 @@ namespace BitCI.Models.BuildSteps
                 using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
                 {
                     writer.WriteLine();
-                    writer.WriteLine("Step 3:");
+                    writer.WriteLine("Step 4:");
                     writer.WriteLine("Run NUnit tests...");
                 }
             }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Web;
 
 namespace BitCI.Models.BuildSteps
@@ -15,9 +18,28 @@ namespace BitCI.Models.BuildSteps
 
         public void Execute()
         {
-            //todo: powershell schedule support
-            // http://blogs.technet.com/b/heyscriptingguy/archive/2015/01/13/use-powershell-to-create-scheduled-tasks.aspx
-            throw new NotImplementedException();
+            DateTime resultTime;
+            DateTime.TryParse(Value, out resultTime);
+
+            var fromHours = TimeSpan.FromHours(resultTime.Hour).TotalMilliseconds;
+            var fromMinutes = TimeSpan.FromMinutes(resultTime.Minute).TotalMilliseconds;
+            var fromSeconds = TimeSpan.FromSeconds(resultTime.Second).TotalMilliseconds;
+            var milisecondsDelay = fromHours + fromMinutes + fromSeconds;
+
+            //update log
+            object locker = new Object();
+            lock (locker)
+            {
+                using (FileStream file = new FileStream(Build.Log, FileMode.Append, FileAccess.Write, FileShare.Read))
+                using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
+                {
+                    writer.WriteLine();
+                    writer.WriteLine("Step 1:");
+                    writer.WriteLine("Build is Triggered for - " + Value + " or " + milisecondsDelay + "miliseconds");
+                }
+            }
+
+            Thread.Sleep(TimeSpan.FromMilliseconds(milisecondsDelay));
         }
     }
 }

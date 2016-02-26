@@ -29,7 +29,7 @@ namespace BitCI.Models.BuildSteps
                 using (StreamWriter writer = new StreamWriter(file, Encoding.Unicode))
                 {
                     writer.WriteLine();
-                    writer.WriteLine("Step 1:");
+                    writer.WriteLine("Step 2:");
                     writer.WriteLine("Downloading Git project...");
                 }
             }
