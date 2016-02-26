@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -181,12 +182,42 @@ namespace BitCI.Controllers
 
             if (ModelState.IsValid)
             {
+                dbBuild.Status = Build.BuildStatus.Running;
+
+                Stopwatch timer = new Stopwatch();
+                timer.Start();
+                
                 ExecuteAllBuildSteps(dbBuild.Id);
                 dbBuild.StartDate = DateTime.Now;
-                dbBuild.Status = Build.BuildStatus.Running;
+                
+                timer.Stop();
+                dbBuild.Duration = String.Empty;
+                string zeroPrefix = "0";
+                
+                if (timer.Elapsed.Hours < 10)
+                {
+                    dbBuild.Duration += zeroPrefix;
+                }
+                dbBuild.Duration += timer.Elapsed.Hours.ToString() + ":";
+
+                if (timer.Elapsed.Minutes < 10)
+                {
+                    dbBuild.Duration += zeroPrefix;
+                }
+                dbBuild.Duration += timer.Elapsed.Minutes.ToString() + ":";
+
+                if (timer.Elapsed.Seconds < 10 )
+                {
+                    dbBuild.Duration += zeroPrefix;
+                }
+                dbBuild.Duration += timer.Elapsed.Seconds.ToString();
+
+                //todo: add support for build status pass/fail
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", build.ProjectId);
             return View(build);
         }
@@ -239,7 +270,6 @@ namespace BitCI.Controllers
                 }
             }
 
-            //todo: update elapsed time duration
         }
 
         // GET: Builds/Delete/5
