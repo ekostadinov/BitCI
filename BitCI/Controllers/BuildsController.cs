@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using BitCI.Context;
@@ -35,7 +36,48 @@ namespace BitCI.Controllers
         // GET: Builds
         public ActionResult Index()
         {
+            //todo: consider Idle build state, when build was added, but hasn't been run!
+            Response.AddHeader("Refresh", "5");
+
             var builds = db.Builds.Include(b => b.Project);
+            string msbuildNoErrors = "0 Error(s)";
+            string nunitNoErrors = "Errors: 0,";
+            int latestBuilds = 10;
+            int curentRunningbBuildDbCounter = 1;
+
+            for (int buildCounter = builds.Count() - latestBuilds; buildCounter <= builds.Count() + curentRunningbBuildDbCounter; buildCounter++)
+            {
+                var build = builds.First(b => b.Id.Equals(buildCounter));
+                string logText = string.Empty;
+
+                try
+                {
+                    object locker = new Object();
+                    lock (locker)
+                    {
+                        logText = System.IO.File.ReadAllText(build.Log);
+                    }
+                }
+                catch (FileNotFoundException fnfe)
+                {
+                    // ignore, since we already updated the build.Status and cleaned the work directory
+                }
+
+                if (!build.Status.Equals(Build.BuildStatus.Passed) && !build.Status.Equals(Build.BuildStatus.Failed))
+                {
+                    bool isBuildSuccessful = logText.Contains(msbuildNoErrors) && logText.Contains(nunitNoErrors);
+                    if (isBuildSuccessful)
+                    {
+                        build.Status = Build.BuildStatus.Passed;
+                    }
+                    else
+                    {
+                        build.Status = Build.BuildStatus.Failed;
+                    }
+                }
+            }
+
+            db.SaveChanges();
             return View(builds.ToList());
         }
 
@@ -211,9 +253,7 @@ namespace BitCI.Controllers
                     dbBuild.Duration += zeroPrefix;
                 }
                 dbBuild.Duration += timer.Elapsed.Seconds.ToString();
-
-                //todo: add support for build status pass/fail
-
+               
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
