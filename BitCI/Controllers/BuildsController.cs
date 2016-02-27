@@ -36,7 +36,6 @@ namespace BitCI.Controllers
         // GET: Builds
         public ActionResult Index()
         {
-            //todo: consider Idle build state, when build was added, but hasn't been run!
             Response.AddHeader("Refresh", "5");
 
             var builds = db.Builds.Include(b => b.Project);
