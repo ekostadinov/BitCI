@@ -44,6 +44,7 @@ namespace BitCI.Controllers
             string nunitNoErrors = "Errors: 0,";
             int latestBuilds = 10;
             int curentRunningbBuildDbCounter = 1;
+            int runingBuildLogLength = 30;
 
             for (int buildCounter = builds.Count() - latestBuilds; buildCounter <= builds.Count() + curentRunningbBuildDbCounter; buildCounter++)
             {
@@ -65,14 +66,18 @@ namespace BitCI.Controllers
 
                 if (!build.Status.Equals(Build.BuildStatus.Passed) && !build.Status.Equals(Build.BuildStatus.Failed))
                 {
-                    bool isBuildSuccessful = logText.Contains(msbuildNoErrors) && logText.Contains(nunitNoErrors);
-                    if (isBuildSuccessful)
+
+                    if (logText.Length > runingBuildLogLength)
                     {
-                        build.Status = Build.BuildStatus.Passed;
-                    }
-                    else
-                    {
-                        build.Status = Build.BuildStatus.Failed;
+                        bool isBuildSuccessful = logText.Contains(msbuildNoErrors) && logText.Contains(nunitNoErrors);
+                        if (isBuildSuccessful)
+                        {
+                            build.Status = Build.BuildStatus.Passed;
+                        }
+                        else
+                        {
+                            build.Status = Build.BuildStatus.Failed;
+                        }   
                     }
                 }
             }
