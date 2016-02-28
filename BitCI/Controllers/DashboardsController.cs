@@ -90,32 +90,6 @@ namespace BitCI.Controllers
             return View(dashboard);
         }
 
-        // GET: Dashboards/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Dashboard dashboard = db.Dashboards.Find(id);
-            if (dashboard == null)
-            {
-                return HttpNotFound();
-            }
-            return View(dashboard);
-        }
-
-        // POST: Dashboards/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Dashboard dashboard = db.Dashboards.Find(id);
-            db.Dashboards.Remove(dashboard);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

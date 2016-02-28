@@ -163,15 +163,10 @@
     <Compile Include="Context\ServerContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BuildsController.cs" />
-    <Compile Include="Controllers\BuildStepsController.cs" />
     <Compile Include="Controllers\DashboardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PostBuildEmailStepsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
-    <Compile Include="Controllers\RunTestsStepsController.cs" />
-    <Compile Include="Controllers\TriggerStepsController.cs" />
-    <Compile Include="Controllers\VersionControlStepsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -264,45 +259,17 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Dashboards\Create.cshtml" />
-    <Content Include="Views\Dashboards\Delete.cshtml" />
     <Content Include="Views\Dashboards\Details.cshtml" />
     <Content Include="Views\Dashboards\Edit.cshtml" />
     <Content Include="Views\Dashboards\Index.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
-    <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Builds\Create.cshtml" />
-    <Content Include="Views\Builds\Delete.cshtml" />
     <Content Include="Views\Builds\Details.cshtml" />
     <Content Include="Views\Builds\Run.cshtml" />
     <Content Include="Views\Builds\Index.cshtml" />
-    <Content Include="Views\PostBuildEmailSteps\Create.cshtml" />
-    <Content Include="Views\PostBuildEmailSteps\Delete.cshtml" />
-    <Content Include="Views\PostBuildEmailSteps\Details.cshtml" />
-    <Content Include="Views\PostBuildEmailSteps\Edit.cshtml" />
-    <Content Include="Views\PostBuildEmailSteps\Index.cshtml" />
-    <Content Include="Views\RunTestsSteps\Create.cshtml" />
-    <Content Include="Views\RunTestsSteps\Delete.cshtml" />
-    <Content Include="Views\RunTestsSteps\Details.cshtml" />
-    <Content Include="Views\RunTestsSteps\Edit.cshtml" />
-    <Content Include="Views\RunTestsSteps\Index.cshtml" />
-    <Content Include="Views\TriggerSteps\Create.cshtml" />
-    <Content Include="Views\TriggerSteps\Delete.cshtml" />
-    <Content Include="Views\TriggerSteps\Details.cshtml" />
-    <Content Include="Views\TriggerSteps\Edit.cshtml" />
-    <Content Include="Views\TriggerSteps\Index.cshtml" />
-    <Content Include="Views\VersionControlSteps\Create.cshtml" />
-    <Content Include="Views\VersionControlSteps\Delete.cshtml" />
-    <Content Include="Views\VersionControlSteps\Details.cshtml" />
-    <Content Include="Views\VersionControlSteps\Edit.cshtml" />
-    <Content Include="Views\VersionControlSteps\Index.cshtml" />
-    <Content Include="Views\BuildSteps\Create.cshtml" />
-    <Content Include="Views\BuildSteps\Delete.cshtml" />
-    <Content Include="Views\BuildSteps\Details.cshtml" />
-    <Content Include="Views\BuildSteps\Edit.cshtml" />
-    <Content Include="Views\BuildSteps\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

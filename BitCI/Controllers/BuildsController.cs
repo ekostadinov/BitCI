@@ -358,18 +358,7 @@ namespace BitCI.Controllers
             }
             return View(build);
         }
-
-        // POST: Builds/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Build build = db.Builds.Find(id);
-            db.Builds.Remove(build);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
+      
         protected override void Dispose(bool disposing)
         {
             if (disposing)
