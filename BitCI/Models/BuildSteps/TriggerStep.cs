@@ -35,7 +35,7 @@ namespace BitCI.Models.BuildSteps
                 {
                     writer.WriteLine();
                     writer.WriteLine("Step 1:");
-                    writer.WriteLine("Build is Triggered for - " + Value + " or " + milisecondsDelay + "miliseconds");
+                    writer.WriteLine("Build trigger has delay of - " + milisecondsDelay + "miliseconds");
                 }
             }
 

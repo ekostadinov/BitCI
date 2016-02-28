@@ -62,6 +62,14 @@ namespace BitCI.Controllers
                 {
                     // ignore, since we already updated the build.Status and cleaned the work directory
                 }
+                catch (IOException ioe)
+                {
+                    // currently this is not a multithreading application and the Log resource is locked by
+                    // all steps for both write and read
+                    build.Status = Build.BuildStatus.Running;
+                    db.SaveChanges();
+                    return View(builds.ToList());
+                }
 
                 if (!build.Status.Equals(Build.BuildStatus.Passed) && !build.Status.Equals(Build.BuildStatus.Failed))
                 {
@@ -100,6 +108,26 @@ namespace BitCI.Controllers
 
             if (System.IO.File.Exists(build.Log))
             {
+                string logText = String.Empty;
+
+                try
+                {
+                    object locker = new Object();
+                    lock (locker)
+                    {
+                        logText = System.IO.File.ReadAllText(build.Log);
+                    }
+                }
+                catch (IOException ioe)
+                {
+                    // currently this is not a multithreading application and the Log resource is locked by
+                    // all steps for both write and read
+                    var builds = db.Builds.Include(b => b.Project);                
+                    build.Status = Build.BuildStatus.Running;
+                    db.SaveChanges();
+                    return View("Index", builds.ToList());
+                }
+
                 ViewBag.LogFileContent = System.IO.File.ReadAllLines(build.Log);
                 Response.AddHeader("Refresh", "5");
             }
