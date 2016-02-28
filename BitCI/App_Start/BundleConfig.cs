@@ -23,7 +23,6 @@ namespace BitCI
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            //todo: may apply your custom style changes here
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
