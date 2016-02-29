@@ -11,6 +11,7 @@ using BitCI.Models;
 
 namespace BitCI.Controllers
 {
+    [Authorize] 
     public class ProjectsController : Controller
     {
         private ServerContext db = new ServerContext();

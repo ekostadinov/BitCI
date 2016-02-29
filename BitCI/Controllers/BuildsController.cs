@@ -17,6 +17,7 @@ using BitCI.Models.BuildSteps;
 
 namespace BitCI.Controllers
 {
+    [Authorize] 
     public class BuildsController : Controller
     {
         private ServerContext db = new ServerContext();
