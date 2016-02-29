@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using BitCI.Models;
+using Owin.Security.Providers.GitHub;
 
 namespace BitCI
 {
@@ -63,6 +64,8 @@ namespace BitCI
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+
+            app.UseGitHubAuthentication("bd45df17bdf0304b3149", "c99a9f883e33209be1c46379b4f1d78f5e3b619e");
         }
     }
 }
