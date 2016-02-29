@@ -8,15 +8,15 @@ namespace BitCI.Tests.Controllers
     [Category("Backend")]
     [Category("Backend team")]
     [Category("Backendteam")]
-    public class HomeControllerTest
+    class ProjectsControllerTest
     {
-        private HomeController _controller;
+        private ProjectsController _controller;
 
         [SetUp]
         public void Setup()
         {
             // Arrange
-            _controller = new HomeController();
+            _controller = new ProjectsController();
         }
 
         [Test]
@@ -25,25 +25,16 @@ namespace BitCI.Tests.Controllers
             // Act
             ViewResult result = _controller.Index() as ViewResult;
             // Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("Projects openeded!", result.ViewBag.Message);
         }
 
         [Test]
-        public void About()
+        public void Create()
         {
             // Act
-            ViewResult result = _controller.About() as ViewResult;
+            ViewResult result = _controller.Create() as ViewResult;
             // Assert
-            Assert.AreEqual("Our goals and vision. Why us?", result.ViewBag.Message);
-        }
-
-        [Test]
-        public void Contact()
-        {
-            // Act
-            ViewResult result = _controller.Contact() as ViewResult;
-            // Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("Project created!", result.ViewBag.Message);
         }
     }
 }

@@ -19,6 +19,8 @@ namespace BitCI.Controllers
         // GET: Dashboards
         public ActionResult Index()
         {
+            ViewBag.Message = "Dashboard opened!";
+
             return View(db.Dashboards.ToList());
         }
 
@@ -40,6 +42,8 @@ namespace BitCI.Controllers
         // GET: Dashboards/Create
         public ActionResult Create()
         {
+            ViewBag.Message = "Dashboard created!";
+
             return View();
         }
 

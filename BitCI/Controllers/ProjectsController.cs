@@ -19,6 +19,8 @@ namespace BitCI.Controllers
         // GET: Projects
         public ActionResult Index()
         {
+            ViewBag.Message = "Projects openeded!";
+
             var projects = db.Projects.Include(p => p.Dashboard);
             return View(projects.ToList());
         }
@@ -41,6 +43,7 @@ namespace BitCI.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
+            ViewBag.Message = "Project created!";
             ViewBag.DashboardId = new SelectList(db.Dashboards, "Id", "Name");
             return View();
         }

@@ -139,6 +139,7 @@ namespace BitCI.Controllers
         // GET: Builds/Create
         public ActionResult Create()
         {
+            ViewBag.Message = "Build created!";
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             return View();
         }
@@ -345,21 +346,6 @@ namespace BitCI.Controllers
 
         }
 
-        // GET: Builds/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Build build = db.Builds.Find(id);
-            if (build == null)
-            {
-                return HttpNotFound();
-            }
-            return View(build);
-        }
-      
         protected override void Dispose(bool disposing)
         {
             if (disposing)
