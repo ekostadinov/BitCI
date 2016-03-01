@@ -159,9 +159,10 @@ namespace BitCI.Controllers
             }
             build.Workspace = build.Workspace.Replace("BitCI\\bin\\..\\..\\", String.Empty);
             build.Duration = "00:00:00";
-            //todo: add user accounts
-            build.TriggeredBy = "evgeni";
+            build.TriggeredBy = User.Identity.Name;
             build.Log = build.Workspace + "\\log.txt";
+
+
             if (!System.IO.File.Exists(build.Log))
             {
                 using (FileStream fs = System.IO.File.Create(build.Log))
@@ -287,6 +288,8 @@ namespace BitCI.Controllers
                     dbBuild.Duration += zeroPrefix;
                 }
                 dbBuild.Duration += timer.Elapsed.Seconds.ToString();
+
+                build.TriggeredBy = User.Identity.Name;
                
                 db.SaveChanges();
                 return RedirectToAction("Index");
