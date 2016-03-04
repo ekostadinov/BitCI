@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
@@ -8,8 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using BitCI.Context;
 using BitCI.Models;
@@ -40,62 +37,7 @@ namespace BitCI.Controllers
             Response.AddHeader("Refresh", "5");
 
             var builds = db.Builds.Include(b => b.Project);
-            string msbuildNoErrors = "0 Error(s)";
-            string nunitNoErrors = "Errors: 0,";
-            int latestBuilds = 10;
-            int curentRunningbBuildDbCounter = 1;
-            int runingBuildLogLength = 30;
 
-            for (int buildCounter = builds.Count() - latestBuilds; buildCounter <= builds.Count() + curentRunningbBuildDbCounter; buildCounter++)
-            {
-                var build = builds.First(b => b.Id.Equals(buildCounter));
-                string logText = string.Empty;
-
-                try
-                {
-                    object locker = new Object();
-                    lock (locker)
-                    {
-                        logText = System.IO.File.ReadAllText(build.Log);
-
-                        // build is currently running, but the thread can access temporaly unlocked Log file
-                        if (build.Status.Equals(Build.BuildStatus.Running) && !logText.Contains("Tests run:"))
-                        {
-                            throw  new IOException();
-                        }
-                    }
-                }
-                catch (FileNotFoundException)
-                {
-                    // ignore, since we already updated the build.Status and cleaned the work directory
-                }
-                catch (IOException)
-                {
-                    // currently this is not a multithreading application and the Log resource is locked by
-                    // all steps for both write and read
-                    build.Status = Build.BuildStatus.Running;
-                    db.SaveChanges();
-                    return View(builds.ToList());
-                }
-
-                if (!build.Status.Equals(Build.BuildStatus.Passed) && !build.Status.Equals(Build.BuildStatus.Failed))
-                {
-                    if (logText.Length > runingBuildLogLength)
-                    {
-                        bool isBuildSuccessful = logText.Contains(msbuildNoErrors) && logText.Contains(nunitNoErrors);
-                        if (isBuildSuccessful)
-                        {
-                            build.Status = Build.BuildStatus.Passed;
-                        }
-                        else
-                        {
-                            build.Status = Build.BuildStatus.Failed;
-                        }   
-                    }
-                }
-            }
-
-            db.SaveChanges();
             return View(builds.ToList());
         }
 
@@ -230,6 +172,7 @@ namespace BitCI.Controllers
                 return RedirectToAction("Index");
             }
 
+            // in case we get invalid state
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", build.ProjectId);
             return View(build);
         }
@@ -261,10 +204,13 @@ namespace BitCI.Controllers
         public ActionResult Run([Bind(Include = "Id,ProjectId,Status,Workspace,Duration,TriggeredBy,Log,StartDate")] Build build)
         {
             var dbBuild = db.Builds.FirstOrDefault(b => b.Id.Equals(build.Id));
-
+            
             if (ModelState.IsValid)
             {
                 dbBuild.Status = Build.BuildStatus.Running;
+                build.Status = Build.BuildStatus.Running;
+                // needed for UX real-time monitoring
+                db.SaveChanges();
 
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
@@ -295,11 +241,35 @@ namespace BitCI.Controllers
                 dbBuild.Duration += timer.Elapsed.Seconds.ToString();
 
                 build.TriggeredBy = User.Identity.Name;
-               
+
+                try
+                {
+                    string msbuildNoErrors = "0 Error(s)";
+                    string nunitNoErrors = "Errors: 0,";
+                    string logContent = System.IO.File.ReadAllText(dbBuild.Log);
+
+                    if (logContent.Contains(msbuildNoErrors) && logContent.Contains(nunitNoErrors))
+                    {
+                        dbBuild.Status = Build.BuildStatus.Passed;
+                        build.Status = Build.BuildStatus.Passed;
+                    }
+                    else
+                    {
+                        dbBuild.Status = Build.BuildStatus.Failed;
+                        build.Status = Build.BuildStatus.Failed;
+                    }
+                }
+                catch (IOException)
+                {
+                    throw;
+                }
+
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             
+            // in case of invalid state
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", build.ProjectId);
             return View(build);
         }
