@@ -39,7 +39,7 @@
         </tr>
 
         @{
-            var last10Builds = Model.Skip(Model.Count() - 10).ToList();
+            var last10Builds = Model.Skip(Model.Count() - 11).ToList();
         }
 
         @foreach (var item in last10Builds)
@@ -69,10 +69,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
-                <td>
-                    @Html.ActionLink("Run", "Run", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <td class="build-actions">
+                    @Html.ActionLink("Run", "Run", new { id = item.Id }, new { @class = "run-link" }) 
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
                 </td>
             </tr>
         }
@@ -87,20 +86,33 @@
             var img = document.createElement('img');
             img.src = '/images/failed.jpg';
             statuses.item(i).appendChild(img);
+            // hide 'Details' links for Passed build
+            var row = statuses.item(i).parentElement;
+            var actions = row.getElementsByClassName('run-link');
+            actions.item(0).style.display = 'none';
         } else if (statuses.item(i).textContent.contains('Passed')) {
             var img = document.createElement('img');
             img.src = '/images/passed.jpg';
             statuses.item(i).appendChild(img);
+            // hide 'Details' links for Passed build
+            var row = statuses.item(i).parentElement;
+            var actions = row.getElementsByClassName('run-link');
+            actions.item(0).style.display = 'none';
         } else if (statuses.item(i).textContent.contains('Pending')) {
             var img = document.createElement('img');
             img.src = '/images/pending.jpg';
             statuses.item(i).appendChild(img);
         } else if (statuses.item(i).textContent.contains('Running')) {
             var img = document.createElement('img');
-            img.src = '/images/running.jpg';
+            img.src = '/images/runner.gif';
             statuses.item(i).appendChild(img);
+            // hide 'Run' and 'Details' links for Active build
+            var row = statuses.item(i).parentElement;
+            var actions = row.getElementsByClassName('build-actions');
+            actions.item(0).style.display = 'none';
         }
     }
+
 </script>
 
 

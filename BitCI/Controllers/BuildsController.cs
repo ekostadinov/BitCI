@@ -57,13 +57,19 @@ namespace BitCI.Controllers
                     lock (locker)
                     {
                         logText = System.IO.File.ReadAllText(build.Log);
+
+                        // build is currently running, but the thread can access temporaly unlocked Log file
+                        if (build.Status.Equals(Build.BuildStatus.Running) && !logText.Contains("Tests run:"))
+                        {
+                            throw  new IOException();
+                        }
                     }
                 }
-                catch (FileNotFoundException fnfe)
+                catch (FileNotFoundException)
                 {
                     // ignore, since we already updated the build.Status and cleaned the work directory
                 }
-                catch (IOException ioe)
+                catch (IOException)
                 {
                     // currently this is not a multithreading application and the Log resource is locked by
                     // all steps for both write and read
@@ -74,7 +80,6 @@ namespace BitCI.Controllers
 
                 if (!build.Status.Equals(Build.BuildStatus.Passed) && !build.Status.Equals(Build.BuildStatus.Failed))
                 {
-
                     if (logText.Length > runingBuildLogLength)
                     {
                         bool isBuildSuccessful = logText.Contains(msbuildNoErrors) && logText.Contains(nunitNoErrors);
