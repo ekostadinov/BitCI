@@ -36,9 +36,10 @@ namespace BitCI.Controllers
         {
             Response.AddHeader("Refresh", "5");
 
-            var builds = db.Builds.Include(b => b.Project);
+            var builds = db.Builds.Include(b => b.Project).OrderBy(b => b.Id).ToList();
+            var last10Builds = builds.Skip(Math.Max(0, builds.Count - 11)).ToList();
 
-            return View(builds.ToList());
+            return View(last10Builds);
         }
 
         // GET: Builds/Details/5
