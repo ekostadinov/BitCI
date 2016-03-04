@@ -33,25 +33,21 @@ namespace BitCI.Tests
                 new TimeSpan(0, 0, 60));
             _driver.Navigate().GoToUrl(serverUrl);
             _driver.Manage().Window.Maximize();
-
-            // init elements
-            _loginUsernameInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Email']"));
-            _loginUsernameInput.Clear();
-            _loginPasswordInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Password']"));
-            _loginPasswordInput.Clear();
-            _loginButton = ReturnElementForDefaultWait(By.XPath("//input[@value='Log in']"));
-            _logoffLink = ReturnElementForDefaultWait(By.XPath("//*[text()='Log off']"));            
-            _invalidLoginText = ReturnElementForDefaultWait(By.XPath("//*[text()='Invalid login attempt.']"));
         }
 
         [Test]
         public void Valid_User_Should_Be_Able_To_Login()
         {
             // Act
+            _loginUsernameInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Email']"));
+            _loginUsernameInput.Clear();
             _loginUsernameInput.SendKeys("foo@bar.com");
+            _loginPasswordInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Password']"));
+            _loginPasswordInput.Clear();
             _loginPasswordInput.SendKeys("Foobar12#$");
+            _loginButton = ReturnElementForDefaultWait(By.XPath("//input[@value='Log in']"));
             _loginButton.Click();
-
+            _logoffLink = ReturnElementForDefaultWait(By.XPath("//*[text()='Log off']"));
             // Assert
             Assert.True(_logoffLink.Displayed);
         }
@@ -60,9 +56,15 @@ namespace BitCI.Tests
         public void InValid_User_Should_Not_Be_Able_To_Login()
         {
             // Act
+            _loginUsernameInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Email']"));
+            _loginUsernameInput.Clear();
             _loginUsernameInput.SendKeys("Invalid@mail.com");
+            _loginPasswordInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Password']"));
+            _loginPasswordInput.Clear();
             _loginPasswordInput.SendKeys("Foobar12#$");
+            _loginButton = ReturnElementForDefaultWait(By.XPath("//input[@value='Log in']"));
             _loginButton.Click();
+            _invalidLoginText = ReturnElementForDefaultWait(By.XPath("//*[text()='Invalid login attempt.']"));
 
             // Assert
             Assert.True(_invalidLoginText.Displayed);
@@ -72,9 +74,15 @@ namespace BitCI.Tests
         public void Valid_User_With_InValid_Pass_Should_Not_Be_Able_To_Login()
         {
             // Act
+            _loginUsernameInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Email']"));
+            _loginUsernameInput.Clear();
             _loginUsernameInput.SendKeys("foo@bar.com");
+            _loginPasswordInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Password']"));
+            _loginPasswordInput.Clear();
             _loginPasswordInput.SendKeys("Foobar34#$");
+            _loginButton = ReturnElementForDefaultWait(By.XPath("//input[@value='Log in']"));
             _loginButton.Click();
+            _invalidLoginText = ReturnElementForDefaultWait(By.XPath("//*[text()='Invalid login attempt.']"));
 
             // Assert
             Assert.True(_invalidLoginText.Displayed);
