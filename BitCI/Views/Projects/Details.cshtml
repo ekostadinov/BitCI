@@ -1,4 +1,5 @@
-﻿@model BitCI.Models.Project
+﻿@using BitCI.Context
+@model BitCI.Models.Project
 
 @{
     ViewBag.Title = "Details";
@@ -11,15 +12,22 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Dashboard.Name)
+            Belongs to Dashboard
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Dashboard.Name)
-        </dd>
+        @{
+            var db = new ServerContext();
+            for (int step = 0; step < db.Dashboards.Count(); step++)
+            {
+                if (db.Dashboards.ToArray()[step].Id.Equals(Model.Id))
+                {
+                    <dd>@db.Dashboards.ToArray()[step].Name</dd>
+                }
+            }
+        }
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Project @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>

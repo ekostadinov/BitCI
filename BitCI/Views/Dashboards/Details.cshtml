@@ -1,4 +1,5 @@
-﻿@model BitCI.Models.Dashboard
+﻿@using BitCI.Context
+@model BitCI.Models.Dashboard
 
 @{
     ViewBag.Title = "Details";
@@ -18,6 +19,24 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Projects)
+        </dt>
+
+        <dd>
+            @Html.DisplayNameFor(model => model.Projects)
+        </dd>
+        @{
+            var db = new ServerContext();
+            for (int step = 0; step < db.Projects.Count(); step++)
+            {
+                if (db.Projects.ToArray()[step].DashboardId.Equals(Model.Id))
+                {
+                    <dt> - </dt>
+                    <dd>@db.Projects.ToArray()[step].Name</dd>
+                }
+            }
+        }
     </dl>
 </div>
 <p>
