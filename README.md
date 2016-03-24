@@ -10,7 +10,7 @@ tracker](https://github.com/ekostadinov/BitCI/issues) for the BitCI project.
 
 Documentation for the Travis CI project can also be found here.
 
-## Other repositories
+## Main server functionality
 
 BitCI consists of many different sub-functionalities using ASP.Net MVC. The main ones are:
 
