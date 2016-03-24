@@ -1,6 +1,6 @@
 # BitCI
 
-BitCI is a self-hosted Continuous integration. There is only one current version of it, 
+BitCI is a self-hosted Continuous integration system. There is only one current version of it, 
 but it can be used for both private and public GitHub repositories.
 
 This repository contains the [central issue
