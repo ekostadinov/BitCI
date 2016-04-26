@@ -82,29 +82,37 @@
     var statuses = document.getElementsByClassName("build-status");
 
     for (i = 0; i < statuses.length; i++) {
-        if (statuses.item(i).textContent.contains('Failed')) {
+        if (statuses.item(i).textContent.indexOf('Failed') > -1) {
+            var br = document.createElement('br');
             var img = document.createElement('img');
             img.src = '/images/failed.jpg';
+            statuses.item(i).appendChild(br);
             statuses.item(i).appendChild(img);
             // hide 'Details' links for Passed build
             var row = statuses.item(i).parentElement;
             var actions = row.getElementsByClassName('run-link');
             actions.item(0).style.display = 'none';
-        } else if (statuses.item(i).textContent.contains('Passed')) {
+        } else if (statuses.item(i).textContent.indexOf('Passed') > -1) {
+            var br = document.createElement('br');
             var img = document.createElement('img');
             img.src = '/images/passed.jpg';
+            statuses.item(i).appendChild(br);
             statuses.item(i).appendChild(img);
             // hide 'Details' links for Passed build
             var row = statuses.item(i).parentElement;
             var actions = row.getElementsByClassName('run-link');
             actions.item(0).style.display = 'none';
-        } else if (statuses.item(i).textContent.contains('Pending')) {
+        } else if (statuses.item(i).textContent.indexOf('Pending') > -1) {
+            var br = document.createElement('br');
             var img = document.createElement('img');
             img.src = '/images/pending.jpg';
+            statuses.item(i).appendChild(br);
             statuses.item(i).appendChild(img);
-        } else if (statuses.item(i).textContent.contains('Running')) {
+        } else if (statuses.item(i).textContent.indexOf('Running') > -1) {
+            var br = document.createElement('br');
             var img = document.createElement('img');
             img.src = '/images/runner.gif';
+            statuses.item(i).appendChild(br);
             statuses.item(i).appendChild(img);
             // hide 'Run' and 'Details' links for Active build
             var row = statuses.item(i).parentElement;

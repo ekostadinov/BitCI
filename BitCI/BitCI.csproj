@@ -208,9 +208,14 @@
     <Content Include="images\bg-body.jpg" />
     <Content Include="images\bitci-logo.png" />
     <Content Include="images\down_arrow.png" />
+    <Content Include="images\failed.jpg" />
     <Content Include="images\hosting-logo.png" />
     <Content Include="images\net-logo.png" />
     <Content Include="images\nuget-logo.png" />
+    <Content Include="images\passed.jpg" />
+    <Content Include="images\pending.jpg" />
+    <Content Include="images\runner.gif" />
+    <Content Include="images\running.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

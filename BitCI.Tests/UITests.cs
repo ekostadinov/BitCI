@@ -41,10 +41,10 @@ namespace BitCI.Tests
             // Act
             _loginUsernameInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Email']"));
             _loginUsernameInput.Clear();
-            _loginUsernameInput.SendKeys("foo@bar.com");
+            _loginUsernameInput.SendKeys("demo@gmail.com");
             _loginPasswordInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Password']"));
             _loginPasswordInput.Clear();
-            _loginPasswordInput.SendKeys("Foobar12#$");
+            _loginPasswordInput.SendKeys("Test12#$");
             _loginButton = ReturnElementForDefaultWait(By.XPath("//input[@value='Log in']"));
             _loginButton.Click();
             _logoffLink = ReturnElementForDefaultWait(By.XPath("//*[text()='Log off']"));
@@ -76,10 +76,10 @@ namespace BitCI.Tests
             // Act
             _loginUsernameInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Email']"));
             _loginUsernameInput.Clear();
-            _loginUsernameInput.SendKeys("foo@bar.com");
+            _loginUsernameInput.SendKeys("demo@gmail.com");
             _loginPasswordInput = ReturnElementForDefaultWait(By.XPath("//input[@id='Password']"));
             _loginPasswordInput.Clear();
-            _loginPasswordInput.SendKeys("Foobar34#$");
+            _loginPasswordInput.SendKeys("Test34#$");
             _loginButton = ReturnElementForDefaultWait(By.XPath("//input[@value='Log in']"));
             _loginButton.Click();
             _invalidLoginText = ReturnElementForDefaultWait(By.XPath("//*[text()='Invalid login attempt.']"));
