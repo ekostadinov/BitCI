@@ -5,6 +5,7 @@ using BitCI.Models;
 using BitCI.Models.BuildSteps;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
@@ -28,7 +29,7 @@ namespace BitCI.Tests
         [SetUp]
         public void Setup()
         {
-            _driver = new FirefoxDriver();
+            _driver = new ChromeDriver(@"C:\DEV");
             _defaultDriverWait = new WebDriverWait(_driver,
                 new TimeSpan(0, 0, 60));
             _driver.Navigate().GoToUrl(serverUrl);
